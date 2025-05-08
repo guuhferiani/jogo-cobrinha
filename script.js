@@ -56,3 +56,40 @@ const handleGameOver = () => {
     alert("Game Over! 😫 Aperto Ok para iniciar novamente... ");
     location.reload();
 }
+
+// Função para Mudar a direção da cobrinha
+const changeDirection = e => {
+    if (e.key === "ArrowUp" && velocityY != 1) {
+        velocityX = 0;
+        velocityY = -1;
+    } else if (e.key === "ArrowDown" && velocityY != -1) {
+        velocityX = 0;
+        velocityY = 1;
+    } else if (e.key === "ArrowLeft" && velocityX != 1) {
+        velocityX = -1;
+        velocityY = 0;
+    } else if (e.key === "ArrowRight" && velocityX != -1) {
+        velocityX = 1;
+        velocityY = 0;
+    }
+}   
+
+controls.forEach(button => button.addEventListener("click", () => changeDirection({ key: button.dataset.key})));
+
+//Começar o Game = init Game
+const initGame = () => {
+    if (gameOver) return handleGameOver();
+    let html = `<div class="food" style="grid-area: ${foodY} / ${foodX}"`;
+
+    // Quando a cobra come
+    if (snakeX === foodX && snakeY === foodY) {
+        updateFoodPosition();
+        snakeBody.push([foodY, foodX]);
+        score++;
+        highScore = score >= highScore ? score : highScore;
+
+        localStorage.setItem("high-score", highScore);
+        scoreElement.innerHTML = `Score: ${score}`;
+        highScoreElement.innerHTML = `High Score: ${highScore}`;
+    }
+}
