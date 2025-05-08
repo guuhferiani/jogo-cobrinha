@@ -92,4 +92,17 @@ const initGame = () => {
         scoreElement.innerHTML = `Score: ${score}`;
         highScoreElement.innerHTML = `High Score: ${highScore}`;
     }
+
+    snakeX += velocityX;
+    snakeY += velocityY;
+
+    for (let i = snakeBody.length - 1; i > 0; i--) {
+        snakeBody[i] = snakeBody[i - 1];
+    }
+
+    snakeBody[0] = [snakeX, snakeY];
+
+    if (snakeX <= 0 || snakeX > 30 || snakeY <= 0 || snakeY > 30) {
+        return gameOver = true;
+    }
 }
