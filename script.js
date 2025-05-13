@@ -72,14 +72,14 @@ const changeDirection = e => {
         velocityX = 1;
         velocityY = 0;
     }
-}   
+}
 
-controls.forEach(button => button.addEventListener("click", () => changeDirection({ key: button.dataset.key})));
+controls.forEach(button => button.addEventListener("click", () => changeDirection({ key: button.dataset.key })));
 
 //Começar o Game = init Game
 const initGame = () => {
     if (gameOver) return handleGameOver();
-    let html = `<div class="food" style="grid-area: ${foodY} / ${foodX}"></div>`; //correto
+    let html = `<div class="food" style="grid-area: ${foodY} / ${foodX}"></div>`;
 
     // Quando a cobra come
     if (snakeX === foodX && snakeY === foodY) {
@@ -106,6 +106,19 @@ const initGame = () => {
         return gameOver = true;
     }
 
+    //add div para cada parte do corpo da cobra
+    for (let i = 0; i < snakeBody.length; i++) {
+        html += `<div class="head" style="grid-area: ${snakeBody[i][1]} / ${snakeBody[i][0]}"></div>`;
+
+        //Verifica se a cabeça da cobra atingiu ou colidiu com o corpo
+        if (i !== 0 && snakeBody[0][1] === snakeBody[i][1] && snakeBody[0][0] === snakeBody[i][0]) {
+            gameOver = true;
+        }
+        playBoard.innerHTML = html;
+    }
 
 }
 
+updateFoodPosition();
+setIntervalId = setInterval(initGame, 100);
+document.addEventListener("keyup", changeDirection);''
